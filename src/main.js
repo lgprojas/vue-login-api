@@ -8,4 +8,8 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import router from './router';
 
-createApp(App).use(router).use(VueAxios, axios).mount('#app')
+const app = createApp(App)
+app.use(router).use(VueAxios, axios).mount('#app')
+app.config.globalProperties.$baseUrlApi = process.env.VUE_APP_BASE_URL_API
+
+//axios.defaults.baseURL = process.env.VUE_APP_BASE_URL_API
