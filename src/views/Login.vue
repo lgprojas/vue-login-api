@@ -40,11 +40,15 @@
                  await this.axios.post(this.API_URL + '/v1/loginRoutes', payload)
                  .then(response => {
                     //console.log(response.data);
-                    this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
+                    const data = response.data.data;
+                    console.log(data)
+                    this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
+
+                    localStorage.setItem('token', data.refreshToken)
                     this.$router.push('/');
                 })
                 .catch(error => {
-                    var data = error.response.data;
+                    const data = error.response.data;
                     console.log(data.message);
                 })
             }
