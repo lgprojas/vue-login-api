@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import auth from "../helper/auth"
+import {isAuth} from "../helper/auth"
+
     export default {
         name: 'Login',
         data(){
@@ -41,10 +44,11 @@
                  .then(response => {
                     //console.log(response.data);
                     const data = response.data.data;
-                    console.log(data)
-                    this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.token;
+                    console.log('inicia sesión: ' + data)
 
-                    localStorage.setItem('token', data.refreshToken)
+                    isAuth.value = true
+                    //localStorage.setItem('token', data.refreshToken)
+                    auth.saveSession(data);
                     this.$router.push('/');
                 })
                 .catch(error => {

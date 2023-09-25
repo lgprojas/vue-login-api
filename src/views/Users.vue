@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import { getNewToken } from "../helper/auth"
+import { useRouter } from "vue-router";
+import auth from "../helper/auth"
 
 
     export default {
@@ -21,21 +22,36 @@ import { getNewToken } from "../helper/auth"
                 myToken:'',
             }
         },
-        async mounted(){
-            const newToken = await getNewToken();
-            this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + newToken;
-            await this.axios.get(this.$baseUrlApi + '/v1/usuRoutes/647bc0f33e27f2f7d4a2ad47')
-            .then(response => {
-                if(response.data.status === 'Failed'){
-                    this.errorData = response.data.data.error;
-                }
+        // beforeCreated(){
+        //     console.log('dentro de beforeCreated') 
+        //     auth.isAuthenticated();
+        // },
+        created(){
+            //auth.isAuthenticated();
+            console.log('dentro de created') 
+            this.getUsers();
+        },
+        methods:{
+            
+            async getUsers (){
+                console.log('dentro de Users')                
+                console.log('cierre Users');  
+                //const newToken = await auth.getNewToken();
+                //this.axios.defaults.headers.common['Authorization'] = 'Bearer ' + newToken;
+                await this.axios.get(this.$baseUrlApi + '/v1/usuRoutes/647bc0f33e27f2f7d4a2ad47')
+                .then(response => {
+                    if(response.data.status === 'Failed'){
+                        this.errorData = response.data.data.error;
+                    }
 
-                this.users = response.data;
-            })
+                    this.users = response.data;
+                })
 
-            .catch(error => {
-                    console.log(error);
-            })
+                .catch(error => {
+                        console.log('error: '+ error);
+                })
+            }
+
         },
     }
 </script>
